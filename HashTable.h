@@ -14,7 +14,7 @@ class HashTable
         unsigned int hash(std::string palavra);
         void insert(std::string palavra);
         void remove(std::string cpf);
-        std::string getByPalavra(std::string palavra);
+        bool getByPalavra(std::string palavra);
 
     private:
         unsigned int size_;

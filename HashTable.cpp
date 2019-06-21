@@ -23,6 +23,7 @@ HashTable::~HashTable()
             delete tmp;
         }
     } */
+    std::cout << "opa\n";
     delete[] pessoas_;
     delete[] data;
 }
@@ -79,13 +80,15 @@ void HashTable::remove(std::string cpf)
     delete current;
 }
 
-std::string HashTable::getByPalavra(std::string palavra)
-{
+bool HashTable::getByPalavra(std::string palavra)
+{   
     unsigned int h = hash(palavra);
-    
+
     if (!data[h].search(palavra)) {
-        return "Não achei a palavra\n";
+        std::cout << "nao achei\n";
+        return false;
     }
 
-    return "Achei a palavra\n";
+    std::cout << "achei\n";
+    return true;
 }

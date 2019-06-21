@@ -167,7 +167,6 @@ Node<Item>* DoubleLinkedList<Item>::search(Item i){
         Node<Item> *tmp    = current->next;
              current = tmp;
     }
-    std::cout << current->info;
     return current;
 }
 
