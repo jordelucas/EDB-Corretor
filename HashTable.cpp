@@ -12,7 +12,6 @@ HashTable::HashTable(unsigned int size)
     data = new DoubleLinkedList<std::string>[size];
 }
 
-
 HashTable::~HashTable()
 {
 /*    for (unsigned int i = 0; i < size_; ++i) {
@@ -23,13 +22,17 @@ HashTable::~HashTable()
             delete tmp;
         }
     } */
-    std::cout << "opa\n";
     delete[] pessoas_;
     delete[] data;
 }
 
 void HashTable::insert(std::string palavra)
 {
+    if(palavra.front() == -61){
+        data[size_-1].push_back(palavra);    
+        return;
+    }
+
     unsigned int h = hash(palavra);
     data[h].push_back(palavra);
 }
@@ -89,4 +92,10 @@ bool HashTable::getByPalavra(std::string palavra)
     }
 
     return true;
+}
+
+void HashTable::tamanho(){
+    for (int i = 0; i < size_; i++){
+        std::cout << data[i].size() << "\n";
+    }
 }

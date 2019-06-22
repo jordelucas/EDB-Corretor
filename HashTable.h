@@ -15,7 +15,7 @@ class HashTable
         void insert(std::string palavra);
         void remove(std::string cpf);
         bool getByPalavra(std::string palavra);
-
+        void tamanho();
     private:
         unsigned int size_;
         struct Node 
