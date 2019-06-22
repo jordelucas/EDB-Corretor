@@ -1,16 +1,18 @@
+
 #include <iostream>
 #include <fstream>
 #include <string>         
 #include <algorithm>     
+#include <chrono>     
 
-#include "funcoesUteis.h"
 #include "HashTable.h"
+#include "funcoesUteis.cpp"
 #include "Queue.h"
-#include "Pessoa.h"
+
+//auto inicio = std::chrono::high_resolution_clock::now();
 
 int main(int argc, char const *argv[]){
-
-    HashTable tableDicionario(520);
+    HashTable tableDicionario(2080);
     std::ifstream arq_Dicionario("dicionario.txt");
     if (arq_Dicionario.fail()) {
         std::cout << "Problemas na abertura do arquivo\n";
@@ -18,7 +20,8 @@ int main(int argc, char const *argv[]){
     }
     std::string palavra;
     while(arq_Dicionario >> palavra){
-        if(tamanhoMinimo(palavra)){
+        if(palavra.size() >= 3){
+            //std::cout << palavra << " ";
             tableDicionario.insert(palavra);
         }
     }
@@ -32,27 +35,31 @@ int main(int argc, char const *argv[]){
     }
     int qtdd = 0;
     while(arq_Texto >> palavra){
-
         if(palavraAcentuada(palavra) && palavra.size() == 3){
             continue;
         }
-
-        if(tamanhoMinimo(palavra)){      
+        if(tamanhoMinimo(palavra)){
             std::transform(palavra.begin(), palavra.end(), palavra.begin(), ::tolower);
             palavra = removeChar(palavra);
             if(tamanhoMinimo(palavra)){
                 if(tableDicionario.getByPalavra(palavra) == false){
                     qtdd++;
-                    std::cout << palavra << "\n";
+                    //std::cout << palavra << "\n";
                     filaTexto.push_back(palavra);
                 }
             }
         }
     }
     arq_Texto.close();
-
+ 
     //tableDicionario.tamanho();
     //std::cout << qtdd << "\n";
+
+    //auto resultado = std::chrono::high_resolution_clock::now() - inicio;
+    //long long microseconds = std::chrono::duration_cast<std::chrono::microseconds>(resultado).count();
+
+    //std::cout << microseconds;
+
 
     return 0;
 }

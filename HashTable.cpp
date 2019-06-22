@@ -2,10 +2,44 @@
 #include <iostream>
 #include <cstring>
 
+int valueVogais(std::string palavra){
+    int pontos = 0;
+    for(int i = 0; i < palavra.length(); i++){
+        switch (palavra[i]){
+        case 'a':
+            pontos+=1;
+            break;
+        case 'e':
+            pontos+=2;
+            break;
+        case 'i':
+            pontos+=3;
+            break;
+        case 'o':
+            pontos+=4;
+            break;
+        case 'u':
+            pontos+=5;
+            break;                                            
+        default:
+            break;
+        }
+    }
+    if(pontos == 0){
+        return 0;
+    }else if (pontos >=1 && pontos <= 4) {
+        return 1;
+    }else if (pontos >=5 && pontos <= 8) {
+        return 2;
+    }else if (pontos >=9) {
+        return 3;
+    }
+    return 0;
+}
+
 HashTable::HashTable(unsigned int size)
     : size_(size)
 {
-    pessoas_  = nullptr;
     /*for (unsigned int i = 0; i < size; ++i) {
         pessoas_[i] = nullptr;
     }*/
@@ -22,7 +56,6 @@ HashTable::~HashTable()
             delete tmp;
         }
     } */
-    delete[] pessoas_;
     delete[] data;
 }
 
@@ -37,11 +70,6 @@ void HashTable::insert(std::string palavra)
     data[h].push_back(palavra);
 }
 
-HashTable::Node::~Node()
-{
-    delete info;
-}
-
 unsigned int HashTable::hash(std::string palavra)
 {
     int valueAscii = tolower(palavra.front())-97;   /*Modifica a primeira letra para minúsculo e 
@@ -49,13 +77,16 @@ unsigned int HashTable::hash(std::string palavra)
                                                     indo agora de 0 à 25*/
     int palavraSize = palavra.size()-1;             /*Determina a quantidade de letras e em qual
                                                     lista para aquela inicial a palavra deve ficar */
-    int h = palavraSize + (valueAscii * 20);        /*Garante 20 listas para cada inicial*/
+    int pontosVogais = valueVogais(palavra);        /*Verifica quantas vogais tem a palavra e qual 
+                                                    ela recebe.pontuação */
+    //std::cout << pontosVogais << "\n"; 
+    int h = (palavraSize*4) + pontosVogais + (valueAscii * 80);        /*Garante 20 listas para cada inicial*/
     return h;
 }
 
+/*unsigned int h = hash(cpf);
 void HashTable::remove(std::string cpf)
 {
-    unsigned int h = hash(cpf);
     h = h % size_;
 
     if (!pessoas_[h]) {
@@ -87,10 +118,16 @@ void HashTable::remove(std::string cpf)
 
     prev->next = current->next;
     delete current;
-}
+} */
 
 bool HashTable::getByPalavra(std::string palavra)
 {   
+    if(palavra.front() == -61){
+        if (!data[size_].search(palavra)) {
+            return false;
+        }
+    }
+    
     unsigned int h = hash(palavra);
 
     if (!data[h].search(palavra)) {
