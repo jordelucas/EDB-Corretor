@@ -5,8 +5,7 @@
 
 #include "DoubleLinkedList.h"
 
-class HashTable
-{
+class HashTable {
     public:
         HashTable(unsigned int size);
         ~HashTable();
@@ -14,6 +13,7 @@ class HashTable
         void insert(std::string palavra);
         //void remove(std::string cpf);
         bool getByPalavra(std::string palavra);
+        DoubleLinkedList<std::string> getByList(std::string palavra);
         void tamanho();
     private:
         unsigned int size_;

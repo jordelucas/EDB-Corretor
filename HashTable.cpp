@@ -135,8 +135,7 @@ void HashTable::remove(std::string cpf)
     delete current;
 } */
 
-bool HashTable::getByPalavra(std::string palavra)
-{   
+bool HashTable::getByPalavra(std::string palavra) {   
     if(palavra.front() == -61){
         if (!data[size_-1].search(palavra)) {
             return false;
@@ -150,6 +149,16 @@ bool HashTable::getByPalavra(std::string palavra)
         return false;
     }
     return true;
+}
+
+DoubleLinkedList<std::string> HashTable::getByList(std::string palavra) {   
+    if(palavra.front() == -61){
+        return data[size_-1];
+    }
+
+    unsigned int h = hash(palavra);
+    std::cout << h << "\n";
+    return data[h];
 }
 
 void HashTable::tamanho(){
