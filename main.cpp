@@ -12,6 +12,7 @@
 //auto inicio = std::chrono::high_resolution_clock::now();
 
 int main(int argc, char const *argv[]){
+
     HashTable tableDicionario(2080);
     std::ifstream arq_Dicionario("dicionario.txt");
     if (arq_Dicionario.fail()) {
@@ -28,23 +29,24 @@ int main(int argc, char const *argv[]){
     arq_Dicionario.close();
 
     Queue<std::string> filaTexto;
-    std::ifstream arq_Texto("arquivos/imd.txt");
+    std::ifstream arq_Texto("arquivos/ufrn.txt");
     if (arq_Texto.fail()) {
         std::cout << "Problemas na abertura do arquivo\n";
         return 0;
     }
     int qtdd = 0;
     while(arq_Texto >> palavra){
-        if(palavraAcentuada(palavra) && palavra.size() == 3){
+        if(acentoInicio(palavra) && palavra.size() == 3){
             continue;
         }
         if(tamanhoMinimo(palavra)){
             std::transform(palavra.begin(), palavra.end(), palavra.begin(), ::tolower);
             palavra = removeChar(palavra);
             if(tamanhoMinimo(palavra)){
+                //std::cout << palavra << "\n";
                 if(tableDicionario.getByPalavra(palavra) == false){
                     qtdd++;
-                    //std::cout << palavra << "\n";
+                    std::cout << palavra << "\n";
                     filaTexto.push_back(palavra);
                 }
             }
@@ -53,7 +55,7 @@ int main(int argc, char const *argv[]){
     arq_Texto.close();
  
     //tableDicionario.tamanho();
-    //std::cout << qtdd << "\n";
+    std::cout << qtdd << "\n";
 
     //auto resultado = std::chrono::high_resolution_clock::now() - inicio;
     //long long microseconds = std::chrono::duration_cast<std::chrono::microseconds>(resultado).count();
