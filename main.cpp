@@ -31,7 +31,7 @@ int main(int argc, char const *argv[]){
 
     Queue<std::string> filaTexto;
 
-    std::ifstream arq_Texto("imd.txt");
+    std::ifstream arq_Texto("arquivos/imd.txt");
     if (arq_Texto.fail()) {
         std::cout << "Problemas na abertura do arquivo\n";
         return 0;
@@ -43,7 +43,7 @@ int main(int argc, char const *argv[]){
             palavra = removeChar(palavra);
             if(tamanhoMinimo(palavra)){
                 if(tableDicionario.getByPalavra(palavra) == false){
-                    std::cout << palavra << "\n";
+                    //std::cout << palavra << "\n";
                     filaTexto.push_back(palavra);
                 }
             }
@@ -59,7 +59,6 @@ std::string removeChar(std::string palavra) {
         if(tamanhoMinimo(palavra)){
             if(palavra.front() < 97 || palavra.front() > 122) {
                 palavra.erase(palavra.begin());
-
             }
             if(palavra.back() < 97 || palavra.back() > 122) {
                 palavra.pop_back();
