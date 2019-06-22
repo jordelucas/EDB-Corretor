@@ -8,6 +8,7 @@
 #include "Pessoa.h"
 
 std::string removeChar(std::string palavra);
+bool tamanhoMinimo(std::string palavra);
 
 int main(int argc, char const *argv[]){
     HashTable tableDicionario(520);
@@ -30,19 +31,21 @@ int main(int argc, char const *argv[]){
 
     Queue<std::string> filaTexto;
 
-    std::ifstream arq_Texto("ufrn.txt");
+    std::ifstream arq_Texto("imd.txt");
     if (arq_Texto.fail()) {
         std::cout << "Problemas na abertura do arquivo\n";
         return 0;
     }
     
     while(arq_Texto >> palavra){
-        if(palavra.size() >= 3){            
+        if(tamanhoMinimo(palavra)){      
             std::transform(palavra.begin(), palavra.end(), palavra.begin(), ::tolower);
             palavra = removeChar(palavra);
-            if(tableDicionario.getByPalavra(palavra) == false){
-                std::cout << palavra << "\n";
-                filaTexto.push_back(palavra);
+            if(tamanhoMinimo(palavra)){
+                if(tableDicionario.getByPalavra(palavra) == false){
+                    std::cout << palavra << "\n";
+                    filaTexto.push_back(palavra);
+                }
             }
         }
     }
@@ -52,12 +55,22 @@ int main(int argc, char const *argv[]){
 }
 
 std::string removeChar(std::string palavra) {
-    if(palavra.front() < 97 || palavra.front() > 122){
-        palavra.erase(palavra.begin());
-    }
-    int i = palavra.back();
-    if(palavra.back() < 97 || palavra.back() > 122) {
-        palavra.pop_back();
+    while(palavra.front() < 97 || palavra.front() > 122 || palavra.back() < 97 || palavra.back() > 122){
+        if(tamanhoMinimo(palavra)){
+            if(palavra.front() < 97 || palavra.front() > 122) {
+                palavra.erase(palavra.begin());
+
+            }
+            if(palavra.back() < 97 || palavra.back() > 122) {
+                palavra.pop_back();
+            }
+        }else{
+            return palavra;
+        }
     }
     return palavra;
+}
+
+bool tamanhoMinimo(std::string palavra){
+    return palavra.size() >= 3;
 }
