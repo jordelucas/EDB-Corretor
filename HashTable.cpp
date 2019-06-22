@@ -44,7 +44,13 @@ HashTable::Node::~Node()
 
 unsigned int HashTable::hash(std::string palavra)
 {
-    return (palavra.size()-1) + ((tolower(palavra.front())-97) * 20);
+    int valueAscii = tolower(palavra.front())-97;   /*Modifica a primeira letra para minúsculo e 
+                                                    subtrai valor correspondente na tabela ascii, 
+                                                    indo agora de 0 à 25*/
+    int palavraSize = palavra.size()-1;             /*Determina a quantidade de letras e em qual
+                                                    lista para aquela inicial a palavra deve ficar */
+    int h = palavraSize + (valueAscii * 20);        /*Garante 20 listas para cada inicial*/
+    return h;
 }
 
 void HashTable::remove(std::string cpf)

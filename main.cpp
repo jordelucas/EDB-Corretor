@@ -3,13 +3,10 @@
 #include <string>         
 #include <algorithm>     
 
+#include "funcoesUteis.h"
 #include "HashTable.h"
 #include "Queue.h"
 #include "Pessoa.h"
-
-std::string removeChar(std::string palavra);
-bool tamanhoMinimo(std::string palavra);
-bool palavraAcentuada(std::string palavra);
 
 int main(int argc, char const *argv[]){
 
@@ -46,6 +43,7 @@ int main(int argc, char const *argv[]){
             if(tamanhoMinimo(palavra)){
                 if(tableDicionario.getByPalavra(palavra) == false){
                     qtdd++;
+                    std::cout << palavra << "\n";
                     filaTexto.push_back(palavra);
                 }
             }
@@ -57,28 +55,4 @@ int main(int argc, char const *argv[]){
     //std::cout << qtdd << "\n";
 
     return 0;
-}
-
-std::string removeChar(std::string palavra) {
-    while((palavra.front() < 97 && palavraAcentuada(palavra) == false) || palavra.front() > 122 || palavra.back() < 97 || palavra.back() > 122){
-        if(tamanhoMinimo(palavra)){
-            if((palavra.front() < 97 && palavraAcentuada(palavra) == false) || palavra.front() > 122) {
-                palavra.erase(palavra.begin());
-            }
-            if(palavra.back() < 97 || palavra.back() > 122) {
-                palavra.pop_back();
-            }
-        }else{
-            return palavra;
-        }
-    }
-    return palavra;
-}
-
-bool tamanhoMinimo(std::string palavra){
-    return palavra.size() >= 3;
-}
-
-bool palavraAcentuada(std::string palavra){
-    return palavra.front() == -61;
 }
