@@ -4,10 +4,12 @@
 #include <algorithm>     
 
 #include "HashTable.h"
+#include "Queue.h"
 #include "Pessoa.h"
 
-int main(int argc, char const *argv[])
-{
+std::string removeChar(std::string palavra);
+
+int main(int argc, char const *argv[]){
     HashTable tableDicionario(520);
 
     std::ifstream arq_Dicionario("dicionario.txt");
@@ -26,35 +28,36 @@ int main(int argc, char const *argv[])
 
     //tableDicionario.getByPalavra("instituto");
 
-    HashTable tableTexto(100);
+    Queue<std::string> filaTexto;
 
-    std::ifstream arq_Texto("imd.txt");
+    std::ifstream arq_Texto("ufrn.txt");
     if (arq_Texto.fail()) {
         std::cout << "Problemas na abertura do arquivo\n";
         return 0;
     }
     
-    std::cout << "vai comecar a percorrer o texto\n";
     while(arq_Texto >> palavra){
-        if(palavra.size() >= 3){
+        if(palavra.size() >= 3){            
             std::transform(palavra.begin(), palavra.end(), palavra.begin(), ::tolower);
+            palavra = removeChar(palavra);
             if(tableDicionario.getByPalavra(palavra) == false){
-                tableTexto.insert(palavra);
+                std::cout << palavra << "\n";
+                filaTexto.push_back(palavra);
             }
-        }else{
-            std::cout << "nao considera\n";
         }
     }
     arq_Texto.close();
-  
-    /*Pessoa * pessoaPtr = table.getByCpf(
-        "01923839282"
-    );
 
-    if (pessoaPtr) {
-        std::cout << pessoaPtr->nome << std::endl;
-    } */
-
-    
     return 0;
+}
+
+std::string removeChar(std::string palavra) {
+    if(palavra.front() < 97 || palavra.front() > 122){
+        palavra.erase(palavra.begin());
+    }
+    int i = palavra.back();
+    if(palavra.back() < 97 || palavra.back() > 122) {
+        palavra.pop_back();
+    }
+    return palavra;
 }

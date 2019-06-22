@@ -85,10 +85,8 @@ bool HashTable::getByPalavra(std::string palavra)
     unsigned int h = hash(palavra);
 
     if (!data[h].search(palavra)) {
-        std::cout << "nao achei\n";
         return false;
     }
 
-    std::cout << "achei\n";
     return true;
 }
