@@ -13,6 +13,7 @@
 //auto inicio = std::chrono::high_resolution_clock::now();
 
 int main(int argc, char const *argv[]){
+
     HashTable tableDicionario(2080);
     std::ifstream arq_Dicionario("arquivos/dicionario.txt");
     if (arq_Dicionario.fail()) {
@@ -29,7 +30,7 @@ int main(int argc, char const *argv[]){
     arq_Dicionario.close();
 
     Queue<std::string> filaTexto;
-    std::ifstream arq_Texto("arquivos/imd.txt");
+    std::ifstream arq_Texto("arquivos/ufrn.txt");
     if (arq_Texto.fail()) {
         std::cout << "Problemas na abertura do arquivo\n";
         return 0;
@@ -54,41 +55,28 @@ int main(int argc, char const *argv[]){
     }
     arq_Texto.close();
 
-    DoubleLinkedList<std::string> list = tableDicionario.getByList(*filaTexto.peek());
+    Node<std::string> *str1 = tableDicionario.getByList(*filaTexto.peek());
     int diference = 0;
     int qtd = 0; 
-    std::string str1;
-    std::string str2;
+
+    std::string * str2;
     while(true){
-        std::cout << "go,go,go\n";
-        str2 = *filaTexto.peek();
-        std::cout << "ainda foi\n";
+        str2 = filaTexto.peek();
         do{
-            std::cout << "será?\n";
-            str1 = *list.front(); 
-            std::cout << "ainda?\n";
-            diference = levenshtein(str2, str1);
-            std::cout << "estou perplexo\n";
-            if(list.size() == 1){
-                std::cout << "é aultima posição, à pai..\n";
+            diference = levenshtein(*str2, str1->info);
+            if(str1->next == nullptr){
                 break;
             }
-            std::cout << "não, não é\n";
-            std::cout << list.size() << "\n\n";
-            list.pop_front();
-            std::cout << "aqui deu pau\n";
+            str1 = str1->next;
             //std::cout << *list.front() <<  "\n";
         }while(diference != 1);
         std::cout << "\n";
-        std::cout << str1 << " - " << str2 << ": " << diference << " " << *list.back() << "\n";
+        std::cout << str1->info << " - " << *str2 << ": " << diference << "\n";
         if(filaTexto.size() == 1){
             break;
         }
         filaTexto.pop_front();
-        std::cout << "naaao\n";
-        list.clear();
-        list = tableDicionario.getByList(*filaTexto.peek());
-        std::cout << "egue\n";
+        str1 = tableDicionario.getByList(*filaTexto.peek());
         qtd++;
     }
  

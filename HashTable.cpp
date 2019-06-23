@@ -151,14 +151,13 @@ bool HashTable::getByPalavra(std::string palavra) {
     return true;
 }
 
-DoubleLinkedList<std::string> HashTable::getByList(std::string palavra) {   
+Node<std::string> * HashTable::getByList(std::string palavra) {   
     if(palavra.front() == -61){
-        return data[size_-1];
+        return data[size_-1].front2();
     }
 
     unsigned int h = hash(palavra);
-    std::cout << "!!!" << h << "\n";
-    return data[h];
+    return data[h].front2();
 }
 
 void HashTable::tamanho(){
