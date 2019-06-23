@@ -30,7 +30,7 @@ public:
     void clear();
 
     Item* front();
-    Node<Item>* front2();
+    Node<Item>* frontNode();
     Item* back();
     size_t size();
     Node<Item>* search(Item i);
@@ -135,7 +135,7 @@ Item* DoubleLinkedList<Item>::front(){
 }
 
 template<typename Item>
-Node<Item>* DoubleLinkedList<Item>::front2(){
+Node<Item>* DoubleLinkedList<Item>::frontNode(){
      if (head_==nullptr&&last_==nullptr){
         return nullptr;
         }

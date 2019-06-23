@@ -84,6 +84,9 @@ void HashTable::insert(std::string palavra)
 
 unsigned int HashTable::hash(std::string palavra)
 {
+    if(palavra.front() == -61){
+        return size_-1;
+    }
     int valueAscii = tolower(palavra.front())-97;   /*Modifica a primeira letra para minúsculo e 
                                                     subtrai valor correspondente na tabela ascii, 
                                                     indo agora de 0 à 25*/
@@ -91,7 +94,6 @@ unsigned int HashTable::hash(std::string palavra)
                                                     lista para aquela inicial a palavra deve ficar */
     int pontosVogais = valueVogais(palavra);        /*Verifica quantas vogais tem a palavra e qual 
                                                     pontuacao ela recebe*/
-    //std::cout << pontosVogais << "\n"; 
     int h = (palavraSize*4) + pontosVogais + (valueAscii * 80);        /*Garante 80 listas para cada inicial,
                                                                         sendo 20 divisões referente a quantidade
                                                                         de letras com 4 possibilidade cada de 
@@ -151,13 +153,8 @@ bool HashTable::getByPalavra(std::string palavra) {
     return true;
 }
 
-Node<std::string> * HashTable::getByList(std::string palavra) {   
-    if(palavra.front() == -61){
-        return data[size_-1].front2();
-    }
-
-    unsigned int h = hash(palavra);
-    return data[h].front2();
+Node<std::string> * HashTable::getByList(unsigned int hash) {
+    return data[hash].frontNode();
 }
 
 void HashTable::tamanho(){

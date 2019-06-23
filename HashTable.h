@@ -13,7 +13,7 @@ class HashTable {
         void insert(std::string palavra);
         //void remove(std::string cpf);
         bool getByPalavra(std::string palavra);
-        Node<std::string> * getByList(std::string palavra);
+        Node<std::string> * getByList(unsigned int hash);
         void tamanho();
     private:
         unsigned int size_;

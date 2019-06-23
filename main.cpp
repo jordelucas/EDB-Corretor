@@ -10,7 +10,7 @@
 #include "Queue.h"
 #include "levenshtein.h"
 
-//auto inicio = std::chrono::high_resolution_clock::now();
+auto inicio = std::chrono::high_resolution_clock::now();
 
 int main(int argc, char const *argv[]){
 
@@ -30,7 +30,7 @@ int main(int argc, char const *argv[]){
     arq_Dicionario.close();
 
     Queue<std::string> filaTexto;
-    std::ifstream arq_Texto("arquivos/ufrn.txt");
+    std::ifstream arq_Texto("arquivos/dom-casmurro.txt");
     if (arq_Texto.fail()) {
         std::cout << "Problemas na abertura do arquivo\n";
         return 0;
@@ -55,34 +55,57 @@ int main(int argc, char const *argv[]){
     }
     arq_Texto.close();
 
-    Node<std::string> *str1 = tableDicionario.getByList(*filaTexto.peek());
+    Node<std::string> *str1;
     Queue<std::string> sugestoes;
+    
     int posicao = 0;
     int diference = 0;
     int qtd = 0; 
+    int cont = 0;
 
     std::string * str2;
-
-    while(true){
+    int hash = 0;
+    while(true){                                                    //Palavras erradas!
         str2 = filaTexto.peek();
         posicao = 0;
-        do{
-            diference = levenshtein(*str2, str1->info);
-            if(diference == 1){
-                sugestoes.push_back(str1->info);
-                posicao++;
-            }
-            if(str1->next == nullptr){
-                break;
-            }
-            str1 = str1->next;
-            //std::cout << *list.front() <<  "\n";
-        }while(posicao != 5);
- 
+        hash = tableDicionario.hash(*filaTexto.peek());
+        if(filaTexto.peek()->size() != 3){
+            hash = hash-4;
+            cont = 0;
+        }else{
+            cont = 1;
+        }
         std::cout << "\n";
-        std::cout << *str2 << "\n";
+        std::cout << *str2 << "\n";        
+        while(cont != 3){                                           //Possibilidades de listas da palavra certa
+            str1 = tableDicionario.getByList(hash);
+            if(str1 == nullptr){
+                cont++;
+                hash = hash+4;
+                continue;
+            }
+            //std::cout << "primeira palavra: " << str1->info << "\n";
+            do{                                                     //Preenche sugestões
+                diference = levenshtein(*str2, str1->info);
+                if(diference == 1){
+                    sugestoes.push_back(str1->info);
+                    posicao++;
+                }
+                if(str1->next == nullptr){
+                    break;
+                }
+                str1 = str1->next;
+            }while(posicao != 5);
+            if(posicao == 5){
+                cont = 3;
+            }else{
+                cont++;
+                hash = hash+4;
+            }
+        }
+
         if(posicao != 0){
-            do{
+            do{                                                        //Percorre sugestões
                 std::cout << "> " << *sugestoes.peek() << "\n";
                 if(sugestoes.size() == 1){
                     break;
@@ -91,21 +114,21 @@ int main(int argc, char const *argv[]){
             }while(true);
             sugestoes.clear();
         }
+
         if(filaTexto.size() == 1){
             break;
         }
         filaTexto.pop_front();
-        str1 = tableDicionario.getByList(*filaTexto.peek());
         qtd++;
     }
  
     //tableDicionario.tamanho();
     //std::cout << qtdd << "\n";
 
-    //auto resultado = std::chrono::high_resolution_clock::now() - inicio;
-    //long long microseconds = std::chrono::duration_cast<std::chrono::microseconds>(resultado).count();
+    auto resultado = std::chrono::high_resolution_clock::now() - inicio;
+    long long microseconds = std::chrono::duration_cast<std::chrono::microseconds>(resultado).count();
 
-    //std::cout << microseconds;
+    std::cout << "\n" << microseconds << "\n";
 
     return 0;
 }

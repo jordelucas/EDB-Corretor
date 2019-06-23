@@ -8,9 +8,6 @@ bool acentoInicio(std::string palavra){
 }
 
 bool acentoFim(std::string palavra){
-    if(palavra.back() == -61){
-        //std::cout << palavra << "\n";
-    }
     return palavra.back() == -61;
 }
 
@@ -24,10 +21,7 @@ bool charEspecial(std::string palavra, int op){
         } 
     }else{
         for(int i = 0; i < 6; i++){
-            int j = palavra.back();
-            /*if(j == -61){
-                std::cout << "é esse mesmo: " << palavra << "\n";
-            }*/            
+            int j = palavra.back();      
             if(palavra.back() == array[i]){
                return true;
             }
@@ -39,7 +33,6 @@ bool charEspecial(std::string palavra, int op){
 std::string removeChar(std::string palavra) {
     bool fim = false;
     while(!fim){
-        //std::cout << palavra << " =\n"; |\*',"!@#$%*()¬¢£\_-§+=`´{}ªº]}°/?:;.>,<
         if(tamanhoMinimo(palavra)){
             if(palavra.front() >= 97 && palavra.front() <= 122 ){
             }else{
@@ -51,11 +44,9 @@ std::string removeChar(std::string palavra) {
 
             if(palavra.back() >= 97 && palavra.back() <= 122 ){
             }else{
-                //std::cout << "como era: " << palavra << "\n";
                 if(!charEspecial(palavra, 2)){
                     palavra.erase(palavra.end()-1);
                     int i = palavra.back();
-                    //std::cout << "como ficou: " << palavra << " " << i <<  "\n";
                     continue;
                 }
             }
