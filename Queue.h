@@ -29,7 +29,6 @@ void Queue<T>::clear(){
         return;
     }
     data.clear();
-
 }
 
 template<typename T>

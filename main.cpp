@@ -47,7 +47,7 @@ int main(int argc, char const *argv[]){
                 //std::cout << palavra << "\n";
                 if(tableDicionario.getByPalavra(palavra) == false){
                     qtdd++;
-                    std::cout << palavra << "\n";
+                    //std::cout << palavra << "\n";
                     filaTexto.push_back(palavra);
                 }
             }
@@ -56,22 +56,41 @@ int main(int argc, char const *argv[]){
     arq_Texto.close();
 
     Node<std::string> *str1 = tableDicionario.getByList(*filaTexto.peek());
+    Queue<std::string> sugestoes;
+    int posicao = 0;
     int diference = 0;
     int qtd = 0; 
 
     std::string * str2;
+
     while(true){
         str2 = filaTexto.peek();
+        posicao = 0;
         do{
             diference = levenshtein(*str2, str1->info);
+            if(diference == 1){
+                sugestoes.push_back(str1->info);
+                posicao++;
+            }
             if(str1->next == nullptr){
                 break;
             }
             str1 = str1->next;
             //std::cout << *list.front() <<  "\n";
-        }while(diference != 1);
+        }while(posicao != 5);
+ 
         std::cout << "\n";
-        std::cout << str1->info << " - " << *str2 << ": " << diference << "\n";
+        std::cout << *str2 << "\n";
+        if(posicao != 0){
+            do{
+                std::cout << "> " << *sugestoes.peek() << "\n";
+                if(sugestoes.size() == 1){
+                    break;
+                }
+                sugestoes.pop_front();
+            }while(true);
+            sugestoes.clear();
+        }
         if(filaTexto.size() == 1){
             break;
         }
@@ -81,7 +100,7 @@ int main(int argc, char const *argv[]){
     }
  
     //tableDicionario.tamanho();
-    std::cout << qtdd << "\n";
+    //std::cout << qtdd << "\n";
 
     //auto resultado = std::chrono::high_resolution_clock::now() - inicio;
     //long long microseconds = std::chrono::duration_cast<std::chrono::microseconds>(resultado).count();
