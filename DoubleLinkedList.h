@@ -30,6 +30,7 @@ public:
     void clear();
 
     Item* front();
+    Node<Item>* front2();
     Item* back();
     size_t size();
     Node<Item>* search(Item i);
@@ -131,6 +132,14 @@ Item* DoubleLinkedList<Item>::front(){
         return nullptr;
         }
      return &head_->info;
+}
+
+template<typename Item>
+Node<Item>* DoubleLinkedList<Item>::front2(){
+     if (head_==nullptr&&last_==nullptr){
+        return nullptr;
+        }
+     return head_;
 }
 
 template<typename Item>

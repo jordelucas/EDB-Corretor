@@ -62,6 +62,12 @@ std::string removeChar(std::string palavra) {
         }
         fim = true;
     }
+    for(int i = 0; i < palavra.size(); i++){
+        if(palavra[i] == '-'){
+            palavra = "n";
+            break;
+        }
+    }
     return palavra;
 }
 

@@ -157,7 +157,7 @@ DoubleLinkedList<std::string> HashTable::getByList(std::string palavra) {
     }
 
     unsigned int h = hash(palavra);
-    std::cout << h << "\n";
+    std::cout << "!!!" << h << "\n";
     return data[h];
 }
 

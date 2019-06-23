@@ -13,13 +13,8 @@
 //auto inicio = std::chrono::high_resolution_clock::now();
 
 int main(int argc, char const *argv[]){
-    /*std::string n1 = "unidade";
-    std::string n2 = "unidde";
-    int i = levenshtein(n2, n1);
-    std::cout << i;*/
-
     HashTable tableDicionario(2080);
-    std::ifstream arq_Dicionario("dicionario.txt");
+    std::ifstream arq_Dicionario("arquivos/dicionario.txt");
     if (arq_Dicionario.fail()) {
         std::cout << "Problemas na abertura do arquivo\n";
         return 0;
@@ -34,7 +29,7 @@ int main(int argc, char const *argv[]){
     arq_Dicionario.close();
 
     Queue<std::string> filaTexto;
-    std::ifstream arq_Texto("arquivos/dom-casmurro.txt");
+    std::ifstream arq_Texto("arquivos/imd.txt");
     if (arq_Texto.fail()) {
         std::cout << "Problemas na abertura do arquivo\n";
         return 0;
@@ -51,7 +46,7 @@ int main(int argc, char const *argv[]){
                 //std::cout << palavra << "\n";
                 if(tableDicionario.getByPalavra(palavra) == false){
                     qtdd++;
-                    //std::cout << palavra << "\n";
+                    std::cout << palavra << "\n";
                     filaTexto.push_back(palavra);
                 }
             }
@@ -59,18 +54,43 @@ int main(int argc, char const *argv[]){
     }
     arq_Texto.close();
 
-    //while(filaTexto.peek()){
     DoubleLinkedList<std::string> list = tableDicionario.getByList(*filaTexto.peek());
-    int diference = 0; 
-    do{
-        std::string str1 = *list.front(); 
-        std::string str2 = *filaTexto.peek();
-        diference = levenshtein(str2, str1);
-        std::cout << str1 << " - " << str2 << ": " << diference << "\n";
-        //std::cout << *list.front() <<  "\n";
-        list.pop_front();
-    }while(diference != 1);
-    //}
+    int diference = 0;
+    int qtd = 0; 
+    std::string str1;
+    std::string str2;
+    while(true){
+        std::cout << "go,go,go\n";
+        str2 = *filaTexto.peek();
+        std::cout << "ainda foi\n";
+        do{
+            std::cout << "será?\n";
+            str1 = *list.front(); 
+            std::cout << "ainda?\n";
+            diference = levenshtein(str2, str1);
+            std::cout << "estou perplexo\n";
+            if(list.size() == 1){
+                std::cout << "é aultima posição, à pai..\n";
+                break;
+            }
+            std::cout << "não, não é\n";
+            std::cout << list.size() << "\n\n";
+            list.pop_front();
+            std::cout << "aqui deu pau\n";
+            //std::cout << *list.front() <<  "\n";
+        }while(diference != 1);
+        std::cout << "\n";
+        std::cout << str1 << " - " << str2 << ": " << diference << " " << *list.back() << "\n";
+        if(filaTexto.size() == 1){
+            break;
+        }
+        filaTexto.pop_front();
+        std::cout << "naaao\n";
+        list.clear();
+        list = tableDicionario.getByList(*filaTexto.peek());
+        std::cout << "egue\n";
+        qtd++;
+    }
  
     //tableDicionario.tamanho();
     std::cout << qtdd << "\n";
