@@ -23,7 +23,6 @@ int main(int argc, char const *argv[]){
     std::string palavra;
     while(arq_Dicionario >> palavra){
         if(palavra.size() >= 3){
-            //std::cout << palavra << " ";
             tableDicionario.insert(palavra);
         }
     }
@@ -44,10 +43,8 @@ int main(int argc, char const *argv[]){
             std::transform(palavra.begin(), palavra.end(), palavra.begin(), ::tolower);
             palavra = removeChar(palavra);
             if(tamanhoMinimo(palavra)){
-                //std::cout << palavra << "\n";
                 if(tableDicionario.getByPalavra(palavra) == false){
                     qtdd++;
-                    //std::cout << palavra << "\n";
                     filaTexto.push_back(palavra);
                 }
             }
@@ -84,7 +81,6 @@ int main(int argc, char const *argv[]){
                 hash = hash+4;
                 continue;
             }
-            //std::cout << "primeira palavra: " << str1->info << "\n";
             do{                                                     //Preenche sugestões
                 diference = levenshtein(*str2, str1->info);
                 if(diference == 1){
@@ -121,9 +117,6 @@ int main(int argc, char const *argv[]){
         filaTexto.pop_front();
         qtd++;
     }
- 
-    //tableDicionario.tamanho();
-    //std::cout << qtdd << "\n";
 
     auto resultado = std::chrono::high_resolution_clock::now() - inicio;
     long long microseconds = std::chrono::duration_cast<std::chrono::microseconds>(resultado).count();

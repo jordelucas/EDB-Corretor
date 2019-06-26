@@ -101,42 +101,6 @@ unsigned int HashTable::hash(std::string palavra)
     return h;
 }
 
-/*unsigned int h = hash(cpf);
-void HashTable::remove(std::string cpf)
-{
-    h = h % size_;
-
-    if (!pessoas_[h]) {
-        return;
-    }
-
-    Node* current = pessoas_[h];
-
-    //se for o elemento cabeça
-    if (current->info->cpf == cpf) {
-        Node* next = current->next;
-        delete current;
-        pessoas_[h] = next;
-        return;
-    }
-
-    Node* prev = current;
-    current    = current->next;
-
-    while (current != nullptr && 
-           current->info->cpf != cpf) {
-        prev = current;
-        current = current->next;
-    }
-
-    if (!current) {
-        return;
-    }
-
-    prev->next = current->next;
-    delete current;
-} */
-
 bool HashTable::getByPalavra(std::string palavra) {   
     if(palavra.front() == -61){
         if (!data[size_-1].search(palavra)) {
